@@ -1,5 +1,5 @@
 //! tests/health_check.rs
- 
+
 #[tokio::test]
 async fn health_check_works() {
     // Arrange
