@@ -1,7 +1,7 @@
 use actix_web::{web, HttpResponse};
 use chrono::Utc;
-use tracing::{self, Instrument};
 use sqlx::PgPool;
+use tracing::{self, Instrument};
 use uuid::Uuid;
 
 #[allow(dead_code)]
@@ -23,9 +23,7 @@ pub async fn subscribe(form: web::Form<FormData>, pool: web::Data<PgPool>) -> Ht
 
     let _request_span_guard = request_span.enter();
 
-    let query_span = tracing::info_span!(
-        "Saving new subscriber details in the database"
-    );
+    let query_span = tracing::info_span!("Saving new subscriber details in the database");
 
     match sqlx::query!(
         r#"
@@ -47,7 +45,7 @@ pub async fn subscribe(form: web::Form<FormData>, pool: web::Data<PgPool>) -> Ht
                 request_id
             );
             HttpResponse::Ok().finish()
-        },
+        }
         Err(e) => {
             tracing::error!(
                 "request_id {} - Failed to execute query: {:?}",
